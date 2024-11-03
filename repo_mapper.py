@@ -1,5 +1,5 @@
 import pandas as pd
-repo_df = pd.read_csv('./resources/projects_with_final_url.csv')
+repo_df = pd.read_csv('../resources/projects_with_final_url.csv')
 repo_list = repo_df[['url', 'default_branch']].values.tolist()
 
 def get_repo_search_term(idProject: str):

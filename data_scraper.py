@@ -6,7 +6,7 @@ from tqdm import tqdm
 import sys
 
 # Load dataset
-df = pd.read_csv("./resources/entireDataset.csv")
+df = pd.read_csv("./resources/RemainingTS.csv")
 
 # Set up logging
 logging.basicConfig(
@@ -21,7 +21,10 @@ def get_response(project: str, test_case: str):
         branch, owner, name = get_repo(get_repo_search_term(project))
         test_file_name, _ = test_case.split('.')[-2:]
         test_file_url = get_file_url(owner, name, test_file_name, branch)
-        actual_file_name = test_file_name.replace('test', '')
+
+        if name == 'timely' : actual_file_name =  test_file_name[:-2]
+        else : actual_file_name = test_file_name.replace('test', '')
+
         actual_file_url = get_file_url(owner, name, actual_file_name, branch)
         return test_file_url, actual_file_url
     except Exception as e:
@@ -34,7 +37,7 @@ tqdm.pandas()
 # Parameters for chunking
 num_chunks = 20
 chunk_size = len(df) // num_chunks
-output_file = './resources/entireDataset_with_urls.csv'
+output_file = './resources/remaining_ts_output.csv'
 
 # Initialize output CSV with headers from the first chunk if the file doesn't exist
 try:
